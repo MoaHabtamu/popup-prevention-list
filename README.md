@@ -1,5 +1,7 @@
 # Popup Prevention
 
+**Experimental generic extension:** [install and use the browser extension](extension/README.md) to check popup-ad destinations across websites before they open. It includes a shared, auto-updating popup-ad domain list and exceptions. The existing uBlock filter subscription below remains available separately.
+
 A small community filter list for **full uBlock Origin**, focused on stopping ad-popup scripts before they create tabs and cause an open/close flicker.
 
 The first release contains the configuration confirmed to fix MooPlay's embedded player in Opera on October 27, 2026. It is a starting point for collecting reproducible fixes, not universal popup coverage.
@@ -50,6 +52,6 @@ The project has no background monitoring service. Updates reach subscribers afte
 
 Run the upstream-parser check described in [CONTRIBUTING.md](CONTRIBUTING.md). Syntax checks do not prove live-site behavior; keep reproduction notes and test playback and controls for each change.
 
-Filters and project documentation are available under the [MIT license](LICENSE). uBlock Origin's parser is fetched separately for validation and retains its own license.
+Original code, filters and project documentation are available under the [MIT license](LICENSE). The extension's bundled HaGeZi data retains its [GPL-3.0 license](extension/data/GPL-3.0.txt); see [its provenance](extension/data/source.json). uBlock Origin's parser is fetched separately for validation and retains its own license.
 
 References: [importing and updating filter lists](https://github.com/gorhill/uBlock/wiki/Dashboard:-Filter-lists), [uBlock's scriptlet documentation](https://github.com/gorhill/uBlock/wiki/Resources-Library).

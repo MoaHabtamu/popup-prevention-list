@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8"><title>Installed Popup Prevention check</title>
+<link rel="stylesheet" href="../../extension/ui.css">
+<main><h1>Test the installed extension.</h1>
+<p>This page contains no blocker or mock extension API. Install the extension and add <code>popup-ad.example</code> to Additional ad destinations first. The domain is reserved for examples; it is not a live ad server.</p>
+<button id="ad">Try opening the test ad destination</button>
+<button id="legitimate" class="secondary">Open a legitimate blank window</button>
+<p id="results" role="status">Ready.</p>
+<p>The ad button should return null with no visible tab. With “Also block blank popups” off, the blank button should open one window. Close that window manually.</p>
+<p>Check a destination exception, a site exception, global pause, blank blocking, and strict mode. Reload this page between installation/removal checks. A null result alone is not conclusive: the browser's own blocker may return null, too. Watch the tab strip and confirm the positive control works.</p>
+</main><script src="installed.js"></script></html>

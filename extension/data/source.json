@@ -1,0 +1,8 @@
+{
+  "name": "HaGeZi's Pop-Up Ads",
+  "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/popupads-onlydomains.txt",
+  "homepage": "https://github.com/hagezi/dns-blocklists",
+  "license": "GPL-3.0",
+  "retrieved": "2026-10-28",
+  "sha256": "eec9644976e72877040bbe11c899d195435a80e1de8cc995618489e6de3430d6"
+}

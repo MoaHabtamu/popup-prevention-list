@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Popup Prevention settings</title>
+<link rel="stylesheet" href="ui.css">
+<main>
+  <p class="eyebrow">POPUP PREVENTION · 0.1.0</p>
+  <h1>Stop ad tabs before they open.</h1>
+  <p>Checks new-window destinations against a shared popup-ad list. Works alongside uBlock Origin, using its own list rather than reading uBlock’s settings.</p>
+  <form id="settings">
+    <section>
+      <h2>Protection</h2>
+      <label class="toggle"><input id="enabled" type="checkbox"> Enable popup prevention</label>
+      <label class="toggle"><input id="blockBlank" type="checkbox"> Also block blank popups</label>
+      <p class="hint">Stops empty windows that may become ads later. Can also affect sign-ins and downloads.</p>
+      <label class="toggle"><input id="strict" type="checkbox"> Block all scripted new windows</label>
+      <p class="hint">For persistent popups with unknown destinations. Allowed destinations below still work; ordinary links remain governed by the ad list.</p>
+    </section>
+    <section>
+      <h2>Exceptions</h2>
+      <label for="siteAllowlist">Allow popups on these websites</label>
+      <p class="hint">The address in the main browser tab, including its embedded players. Enter one domain per line; subdomains are included.</p>
+      <textarea id="siteAllowlist" rows="4" spellcheck="false" placeholder="example.com"></textarea>
+      <label for="destinationAllowlist">Always allow these destinations</label>
+      <textarea id="destinationAllowlist" rows="4" spellcheck="false" placeholder="accounts.example.com"></textarea>
+    </section>
+    <section>
+      <h2>Blocking list</h2>
+      <label for="sourceUrl">Shared list URL</label>
+      <input id="sourceUrl" type="url" required>
+      <p class="hint">Defaults to HaGeZi’s Pop-Up Ads list. Updates daily. A bundled copy works offline. HTTPS, one domain per line; full uBlock/EasyList syntax is not supported.</p>
+      <p id="list-status" class="hint"></p>
+      <label for="customBlocklist">Additional ad destinations</label>
+      <textarea id="customBlocklist" rows="4" spellcheck="false" placeholder="ads.example.com"></textarea>
+      <p class="hint">One domain per line. Checks match hostnames, never unrelated words in the URL.</p>
+    </section>
+    <div class="actions"><button type="submit">Save settings</button><button id="update" type="button" class="secondary">Update list now</button></div>
+    <p id="status" role="status" aria-live="polite"></p>
+  </form>
+  <section>
+    <h2>What to expect</h2>
+    <p>Reload open pages after installing. Known ad URLs are suppressed before a new window is created. Blank windows are allowed by default because their future destination is unknown.</p>
+    <p>Very early scripts can run before settings finish loading. Redirects, browser menu commands, and scripts that deliberately bypass or replace the hook can still escape. This is an experimental extension, not a guarantee of zero popups.</p>
+    <p>No analytics or browsing logs. Checks happen locally. Automatic list updates contact the list host without sending browsing URLs.</p>
+    <p><a href="https://github.com/MoaHabtamu/popup-prevention-list">Source code and issue reports</a> · <a href="https://github.com/hagezi/dns-blocklists">HaGeZi list and attribution</a></p>
+  </section>
+</main>
+<script src="engine.js"></script>
+<script src="options.js"></script>
+</html>

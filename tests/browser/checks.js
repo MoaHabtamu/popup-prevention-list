@@ -1,0 +1,38 @@
+document.getElementById('run').addEventListener('click', async () => {
+  const results = [];
+  function check(name, condition) { results.push((condition ? 'PASS ' : 'FAIL ') + name); }
+  const start = testCalls.length;
+  check('known ad returns null', window.open('https://popup-ad.example/') === null);
+  check('known ad never reaches browser open', testCalls.length === start);
+  check('legitimate destination is preserved', window.open('https://safe.example/').testWindow === true);
+  check('legitimate call reaches browser open exactly once', testCalls.length === start + 1);
+  const anchor = document.createElement('a');
+  anchor.href = 'https://popup-ad.example/'; anchor.target = '_blank';
+  document.body.append(anchor);
+  const click = new MouseEvent('click', {bubbles: true, cancelable: true, button: 0});
+  anchor.dispatchEvent(click);
+  check('ad link default navigation is canceled', click.defaultPrevented);
+  anchor.remove();
+  const iframe = document.createElement('iframe');
+  document.body.append(iframe);
+  check('fresh iframe ad open is suppressed', iframe.contentWindow.open('https://popup-ad.example/') === null);
+  iframe.remove();
+  const form = document.createElement('form');
+  form.action = 'https://popup-ad.example/'; form.target = '_blank';
+  document.body.append(form);
+  const submit = new SubmitEvent('submit', {bubbles: true, cancelable: true});
+  form.dispatchEvent(submit);
+  check('ad form default navigation is canceled', submit.defaultPrevented);
+  form.remove();
+  testStored.settings = {blockBlank: true};
+  testStorageListeners.forEach(fn => fn({settings: {}}, 'local'));
+  await new Promise(resolve => setTimeout(resolve, 20));
+  check('blank policy suppresses the call', window.open() === null);
+  testStored.settings = {destinationAllowlist: 'popup-ad.example'};
+  testStorageListeners.forEach(fn => fn({settings: {}}, 'local'));
+  await new Promise(resolve => setTimeout(resolve, 20));
+  check('destination exception restores the call', window.open('https://popup-ad.example/').testWindow === true);
+  testStored.settings = {};
+  testStorageListeners.forEach(fn => fn({settings: {}}, 'local'));
+  document.getElementById('results').textContent = results.join('\n');
+});

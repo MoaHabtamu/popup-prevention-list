@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Popup Prevention",
+  "version": "0.1.0",
+  "description": "Check popup destinations before a new tab opens. Includes a shared popup-ad domain list.",
+  "minimum_chrome_version": "119",
+  "permissions": ["storage", "alarms"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {"service_worker": "background.js"},
+  "options_page": "options.html",
+  "action": {"default_title": "Popup Prevention", "default_popup": "popup.html"},
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["engine.js", "data/bundled.js", "bridge.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "run_at": "document_start",
+      "world": "ISOLATED"
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["intercept.js"],
+      "all_frames": true,
+      "match_about_blank": true,
+      "match_origin_as_fallback": true,
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}

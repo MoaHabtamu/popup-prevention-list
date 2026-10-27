@@ -42,6 +42,8 @@ If the flicker remains, open uBlock's logger before reproducing it. A `$popup` e
 
 ## Help expand coverage
 
+The [October 27 audit](reports/2026-10-27-server-audit.md) and [October 28 follow-up](reports/2026-10-28-follow-up.md) record the seven-site investigation, including failed and incomplete server tests. The [candidate rules](candidates/streaming-players.txt) are experimental and are excluded from the main subscription pending live full-uBlock verification.
+
 [Report a popup or broken page](https://github.com/MoaHabtamu/popup-prevention-list/issues/new/choose), or submit a pull request following [CONTRIBUTING.md](CONTRIBUTING.md). Include the affected page, trigger, player/server, browser and extension versions, and a small redacted logger excerpt. Do not upload full browsing logs, cookies, access tokens, or private account URLs.
 
 The project has no background monitoring service. Updates reach subscribers after maintainers review and merge new filters.

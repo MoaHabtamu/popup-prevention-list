@@ -36,4 +36,6 @@ jobs:
             /src/js/jsonpath.js
             /src/lib/csstree/
       - name: Validate list
-        run: node tools/validate.mjs .upstream-ublock
+        run: |
+          node tools/validate.mjs .upstream-ublock
+          node tools/validate.mjs .upstream-ublock candidates/streaming-players.txt

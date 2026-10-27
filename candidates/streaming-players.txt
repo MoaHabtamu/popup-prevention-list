@@ -1,0 +1,22 @@
+[Adblock Plus 2.0]
+! Title: Popup Prevention - Streaming player candidates
+! Description: Experimental rules awaiting live full-uBlock and playback-regression verification.
+! Version: 2026.10.28.1
+! Last modified: 2026-10-28
+! Expires: 1 day
+! Homepage: https://github.com/MoaHabtamu/popup-prevention-list
+! License: MIT
+!
+! NOT PART OF filters.txt. See reports/2026-10-27-server-audit.md.
+! Follow-up observations: reports/2026-10-28-follow-up.md.
+! Source signatures inspected; zero-flicker behavior has not been verified in Opera.
+!
+! Vidsrc.sh uses the same clean-frame popup mechanism already blocked on Netwara.
+vidsrc.sh##+js(acs, window.open, shown_at)
+!
+! Vxcagb installs a rotating ad-popup click handler from this specific inline script.
+vxcagb.com##+js(acs, document.addEventListener, mergedPopups)
+!
+! CineWave: abort the optional third-party loader that injects this ad script.
+! This also skips the analytics script in that same optional loader.
+vidsrc.su##+js(acs, window.addEventListener, rq.alchemmauls.com)

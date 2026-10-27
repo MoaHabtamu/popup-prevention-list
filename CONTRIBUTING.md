@@ -23,6 +23,7 @@ Requires Node.js 22 or newer, Git, and an internet connection for the initial up
 git clone --no-checkout https://github.com/gorhill/uBlock.git /tmp/popup-prevention-ublock
 git -C /tmp/popup-prevention-ublock checkout --detach "$(cat tools/ublock-revision.txt)"
 node tools/validate.mjs /tmp/popup-prevention-ublock
+node tools/validate.mjs /tmp/popup-prevention-ublock candidates/streaming-players.txt
 ```
 
 The validator uses uBlock Origin's actual static filter parser at the pinned revision. It also rejects duplicate, unscoped, and unknown-scriptlet rules and checks the release headers. It does not execute arbitrary contributed scripts or claim that a live website is fixed. GitHub Actions runs the same validation for pushes and pull requests.

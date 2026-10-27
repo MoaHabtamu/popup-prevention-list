@@ -5,11 +5,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const upstream = process.argv[2];
-assert(upstream, 'Usage: node tools/validate.mjs /path/to/pinned/uBlock');
+assert(upstream, 'Usage: node tools/validate.mjs /path/to/pinned/uBlock [filter-list-path]');
+const filterFile = process.argv[3] || 'filters.txt';
 const { AstFilterParser } = await import(pathToFileURL(
     path.resolve(upstream, 'src/js/static-filtering-parser.js')
 ).href);
-const text = await readFile(path.join(root, 'filters.txt'), 'utf8');
+const text = await readFile(path.join(root, filterFile), 'utf8');
 assert(text.endsWith('\n'), 'Filter list must end with a newline');
 assert(text.startsWith('[Adblock Plus 2.0]\n'), 'Missing format header');
 const header = (name) => {
@@ -17,7 +18,8 @@ const header = (name) => {
     assert.equal(lines.length, 1, `Expected exactly one ${name} header`);
     return lines[0].slice(name.length + 4);
 };
-assert.equal(header('Title'), 'Popup Prevention');
+assert.match(header('Title'), /^Popup Prevention(?: - .+)?$/);
+if (filterFile === 'filters.txt') assert.equal(header('Title'), 'Popup Prevention');
 assert.match(header('Version'), /^\d{4}\.\d{2}\.\d{2}\.\d+$/);
 const modified = header('Last modified');
 assert.match(modified, /^\d{4}-\d{2}-\d{2}$/);
@@ -34,7 +36,7 @@ let scriptlets = 0;
 let cosmetic = 0;
 for (const [index, line] of text.split('\n').entries()) {
     if (line === '' || line.startsWith('!') || line.startsWith('[')) continue;
-    const label = `filters.txt:${index + 1}`;
+    const label = `${filterFile}:${index + 1}`;
     assert.equal(line, line.trim(), `${label}: unexpected surrounding whitespace`);
     assert(!seen.has(line), `${label}: duplicate filter`);
     seen.add(line);
@@ -58,4 +60,4 @@ for (const [index, line] of text.split('\n').entries()) {
     }
 }
 assert(seen.size > 0, 'Filter list must not be empty');
-console.log(`Validated ${seen.size} filters with uBlock Origin's parser (${scriptlets} scriptlet, ${cosmetic} cosmetic).`);
+console.log(`${filterFile}: validated ${seen.size} filters with uBlock Origin's parser (${scriptlets} scriptlet, ${cosmetic} cosmetic).`);

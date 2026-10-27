@@ -1,0 +1,39 @@
+name: Validate filter list
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Read upstream parser revision
+        id: upstream
+        run: |
+          revision=$(cat tools/ublock-revision.txt)
+          [[ "$revision" =~ ^[0-9a-f]{40}$ ]]
+          echo "revision=$revision" >> "$GITHUB_OUTPUT"
+      - name: Fetch pinned upstream parser
+        uses: actions/checkout@v4
+        with:
+          repository: gorhill/uBlock
+          ref: ${{ steps.upstream.outputs.revision }}
+          path: .upstream-ublock
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /package.json
+            /src/js/static-filtering-parser.js
+            /src/js/arglist-parser.js
+            /src/js/jsonpath.js
+            /src/lib/csstree/
+      - name: Validate list
+        run: node tools/validate.mjs .upstream-ublock

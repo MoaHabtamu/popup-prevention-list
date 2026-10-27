@@ -1,0 +1,29 @@
+[Adblock Plus 2.0]
+! Title: Popup Prevention
+! Description: Targeted uBlock Origin filters that stop confirmed ad-popup triggers before tabs open.
+! Version: 2026.10.27.1
+! Last modified: 2026-10-27
+! Expires: 1 day
+! Homepage: https://github.com/MoaHabtamu/popup-prevention-list
+! License: MIT
+!
+! Requires full uBlock Origin and its scriptlet filtering support.
+! The format header does not imply compatibility with Adblock Plus.
+! Keep uBlock Origin's default lists enabled.
+!
+! First release: combined configuration confirmed by a user in Opera on
+! https://ww1.mooplay.cc/from/ on 2026-10-27. Other embedding sites are untested.
+!
+! MooPlay: prevent scripted popup windows and hide the player-wrapper ad overlay.
+mooplay.cc##+js(nowoif, /^/)
+mooplay.cc###start-screen
+!
+! Netwara: abort the popup bundle that uses a temporary iframe to evade blockers.
+! The user's logger confirmed this script was aborted before the final fix.
+netwara.xyz##+js(acs, window.open, shown_at)
+!
+! Play.Netwara: abort the geniusdexchange ad script before it registers click
+! handlers, then hide its invisible overlay so the video remains clickable.
+! The user's logger identified this frame as the source of the remaining popup.
+play.netwara.xyz##+js(acs, document.addEventListener, geniusdexchange.com)
+play.netwara.xyz###start-screen
